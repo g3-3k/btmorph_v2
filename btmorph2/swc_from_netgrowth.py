@@ -3,6 +3,7 @@ File contains:
 
     - :function:`neuron_from_file`
     - :function:`neurons_from_folder`
+    - :function:'get_neuron_path'
 
 Alessio Quaresima added this folder for compatibility with NetGrowwth simulator
 
@@ -13,6 +14,30 @@ from os import listdir
 from os.path import isfile, join
 import os, json
 import btmorph2
+import numpy as np
+
+
+def get_neuron_path(neuron):
+    """
+    Return the neurite as an np.array.
+    This function works with non branching neuron with one only neurite, elseway
+    you got an error
+
+    Returns
+    -------
+    np.array
+    """
+    if neuron.no_bifurcations()>0:
+        raise Exception("Only non branching neuron can return their path as array!")
+    else:
+        pathx=[]
+        pathy=[]
+        for node in neuron.get_tree().get_nodes():
+            pathx.append(node.content['p3d'].xyz[0])
+            pathy.append(node.content['p3d'].xyz[1])
+        return np.array([pathx,pathy])
+
+
 
 def tuple_from_files(file_list):
     """
@@ -105,7 +130,7 @@ def neurons_from_folder(folder_path):
     # neuronfiles = tuple_from_files(neuronfiles)
     return neurons
 
-def neurons_from_file(file_path):
+def neuron_from_file(file_path):
     """
     Return the btmorph2 neuron morphology from a single neuron .swc file, a .json file is expected
     """
