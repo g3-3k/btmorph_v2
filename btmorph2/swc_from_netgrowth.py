@@ -84,32 +84,35 @@ def neurons_from_swc(input_file):
         lines_to_file(neuron,filename+"/neuron_"+str(gid)+".swc")
     return gid
 
-def import_swc(swc_path):
+def import_swc(swc_path, population_to_singles=False):
     """
-    Import the Neuron Morphology from Swc, if the file contains more than a neuron
-    creates a PopulationMorphology object, a NeuronMorphology other way.
+    Import the Neuron Morphology from swc.
+    If the file contains more than a neuron and population_to_singles set to False
+    creates a PopulationMorphology object,
+    If the population_to_singles is True it always return a list of NeuronMorphology.
 
     Returns
     -------
-    The btmorph2 file relative to swc_path
+    a list of bitmorph objects.
     """
-    print( "importing neuron from {}".format(swc_path))
     swc_file=swc_path+".swc"
-    gid = neurons_from_swc(swc_file)
-    if gid >1:
-        neurons = btmorph2.PopulationMorphology(swc_path)
+    gids = neurons_from_swc(swc_file)
+    neurons=[]
+    if population_to_singles or gids==1:
+        for gid in range(1,gids+1):
+            neurons.append(btmorph2.NeuronMorphology(swc_path+"/neuron_"+str(gid)+".swc"))
     else:
-        neurons = btmorph2.NeuronMorphology(swc_path+"/neuron_1.swc")
+        neurons = btmorph2.PopulationMorphology(swc_path)
+    return neurons, gids
     # else:
         # gid = len(listdir(swc_path))
         # if gid >2:
             # neurons = btmorph2.PopulationMorphology(swc_path)
         # else:
-            # neurons = btmorph2.NeuronMorphology(swc_path+"/neuron_1.swc")
-    return neurons
+            #     return neurons
 
 
-def neurons_from_folder(folder_path):
+def neurons_from_folder(folder_path, population_to_singles=False):
     """
     Return a list of btmorph2 neurons for all the neurons in the folder.
     The folder is expected to be a set of .swc and .json files with same name.
@@ -126,7 +129,11 @@ def neurons_from_folder(folder_path):
     neuronfiles = [join(neuron_folder,f.split(".")[0]) for f in listdir(neuron_folder) if isfile(join(neuron_folder, f)) and f.split(".")[1]=="json"]
     neurons=[]
     for neuron in neuronfiles:
-        neurons.append({"swc":import_swc(neuron),"json":json.load(open(neuron+".json"))})
+        imported_file, gids = import_swc(neuron, population_to_singles)
+        netgrowth_format = {"gids":gids,"swc":imported_file,"json":json.load(open(neuron+".json"))}
+        print( "importing population from {}".format(neuron))
+        print( "This population has {} neurons".format(gids))
+        neurons.append(netgrowth_format)
     # neuronfiles = tuple_from_files(neuronfiles)
     return neurons
 
