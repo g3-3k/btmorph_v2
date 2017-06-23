@@ -29,9 +29,9 @@ class PopulationMorphology(object):
 
     List of neurons for statistical comparison, no visualisation methods
     '''
-    
+
     neurons = []
-    
+
     def __init__(self, obj):
         """
         Default constructor.
@@ -41,7 +41,7 @@ class PopulationMorphology(object):
         obj : : str, NeuronMorphology, list[NeuronMorphology]
             If obj is str it can either be a SWC file or directory containing
             SWC files. If obj is NeuronMorphology then Population will be
-            create with NeuronMorphology, if List of NeuronMorphology then 
+            create with NeuronMorphology, if List of NeuronMorphology then
             population will be created with that list
         """
 
@@ -54,7 +54,7 @@ class PopulationMorphology(object):
                 from os.path import isfile, isdir, join
 
                 if isdir(obj):
-                    files = [f for f in listdir(obj) if (isfile(join(obj, f)) 
+                    files = [f for f in listdir(obj) if (isfile(join(obj, f))
                                                          and
                                                          f.endswith('.swc'))]
                     for f in files:
@@ -413,7 +413,7 @@ class NeuronMorphology(object):
 
     def plot_dendrogram(self):
         plot_dendrogram(self)
-        
+
     def plot_2D(self, color_scheme="default", color_mapping=None,
                 synapses=None, save_image=None, depth='y',show_radius=True):
 
@@ -942,7 +942,7 @@ class NeuronMorphology(object):
     def max_degree(self):
         # -1: subtract the 2 fake nodes from the 3-point soma position
         return self.degree_of_node(self.tree.root)-2
-    
+
     def degree_of_node(self, node):
         """
         Degree of a Node. (The number of leaf Node in the subneuron mounted at
@@ -1827,8 +1827,8 @@ class Tree(object):
         # check soma-representation: 3-point soma or a non-standard
         # representation
         self.soma_type = self._determine_soma_type(input_file)
-        print("NeuronMorphology::read_SWC_tree_from_file found soma_type=%i" \
-            % self.soma_type)
+        # print("NeuronMorphology::read_SWC_tree_from_file found soma_type=%i" \
+            # % self.soma_type)
 
         f = open(input_file, 'r')
         all_nodes = dict()
@@ -2030,7 +2030,7 @@ class Tree(object):
     def _determine_soma_type(self,file_n):
         """
         Costly method to determine the soma type used in the SWC file.
-        This method searches the whole file for soma entries.  
+        This method searches the whole file for soma entries.
 
         Parameters
         ----------
@@ -2063,7 +2063,7 @@ class Tree(object):
         elif somas > 3:
             return 2
         else:
-            return 3    
+            return 3
 
     def _pca(self, A):
         """ performs principal components analysis
