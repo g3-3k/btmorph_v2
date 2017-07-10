@@ -3,6 +3,6 @@ from .btstructs import PopulationMorphology
 from .btstructs import Tree
 from .btstructs import Node
 from .btstructs import P3D
-from .swc_from_netgrowth import neuron_from_file, neurons_from_folder, get_neuron_path
+from .swc_from_netgrowth import neuron_from_file, neurons_from_folder, get_neuron_path, neurons_from_swc
 
 from .grids import VoxelGrid
