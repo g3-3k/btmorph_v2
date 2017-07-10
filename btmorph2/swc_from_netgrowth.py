@@ -126,7 +126,7 @@ def neurons_from_folder(folder_path, population_to_singles=False):
     [...,btmorph2.NeuronMorphology objects,...]
     """
     neuron_folder =os.getcwd()+"/"+folder_path+"/"
-    neuronfiles = [join(neuron_folder,f.split(".")[0]) for f in listdir(neuron_folder) if isfile(join(neuron_folder, f)) and f.split(".")[1]=="json"]
+    neuronfiles = [join(neuron_folder,f.split(".")[0]) for f in listdir(neuron_folder) if isfile(join(neuron_folder, f)) and f.endswith(".json")]
     neurons=[]
     for neuron in neuronfiles:
         imported_file, gids = import_swc(neuron, population_to_singles)
