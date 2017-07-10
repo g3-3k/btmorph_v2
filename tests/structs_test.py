@@ -166,7 +166,7 @@ def test_terminal_lengths():
                                      max(term_path_lengths))))
     print(('min/max euclid: %f - %f' % (min(term_euclidean_lengths),
                                        max(term_euclidean_lengths))))
-    print(('min/max contraction: %f - %f' % (min(term_contractions),
+    print(('min/max tortuosity_dm: %f - %f' % (min(term_contractions),
                                             max(term_contractions))))
     assert(1531 < max(term_euclidean_lengths) < 1532)
     assert(1817 < max(term_path_lengths) < 1819)

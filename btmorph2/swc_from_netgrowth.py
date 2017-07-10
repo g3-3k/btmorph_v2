@@ -104,7 +104,7 @@ def import_swc(swc_path):
     neurons=[]
     for gid in range(1,gids+1):
         neurons.append(btmorph2.NeuronMorphology(swc_path+"/neuron_"+str(gid)+".swc"))
-
+    return neurons, gids
     # else:
         # gid = len(listdir(swc_path))
         # if gid >2:
